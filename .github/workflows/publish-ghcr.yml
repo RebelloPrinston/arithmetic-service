@@ -9,7 +9,7 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: Build and push the image
-              run:
+              run: |
                 docker login --username prinstonrebello@gmail.com --password ${{secrets.ACCESS_TOKEN_DOCKER}} ghcr.io
                 docker build -t ghcr.io/prinstonrebello@gmail.com/arithmetic-service:latest --file DockerFile .
                 docker push ghcr.io/prinstonrebello@gmail.com/arithmetic-service:latest
