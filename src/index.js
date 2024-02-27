@@ -16,5 +16,30 @@ app.get('/add/:n/:m', (req, res) => {
     const sum = num1 + num2;
     res.json(sum);
 });
+
+app.get('/isprime/:n', (req, res) => {
+    const num = parseInt(req.params.n);
+    const isPrime = checkPrime(num);
+    res.json(isPrime);
+});
+
+function checkPrime(num) {
+    if (num <= 1) {
+        return false;
+    }
+    if (num <= 3) {
+        return true;
+    }
+    if (num % 2 === 0 || num % 3 === 0) {
+        return false;
+    }
+    for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
 //listening port
 app.listen(port);
