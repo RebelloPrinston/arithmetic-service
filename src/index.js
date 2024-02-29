@@ -18,9 +18,16 @@ app.get('/add/:n/:m', (req, res) => {
 });
 
 app.get('/isprime/:n', (req, res) => {
+    result = ''
     const num = parseInt(req.params.n);
     const isPrime = checkPrime(num);
-    res.json(isPrime);
+    if(isPrime) {
+        result = 'Prime';
+    }
+    else{
+        result = 'Not Prime'
+    }
+    res.json(result);
 });
 
 function checkPrime(num) {
