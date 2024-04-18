@@ -1,52 +1,31 @@
+require('dotenv').config()
 const express = require('express');
+const cors = require('cors') 
 const app = express();
-const port = 3000;
-const cors = require('cors');
-
-app.use(express.json())
-app.use(cors())
-
-app.get('/', (req, res) => {
-    res.send('Arithmatic Service - Hello World!');
-});
-
-app.get('/add/:n/:m', (req, res) => {
-    const num1 = parseInt(req.params.n);
-    const num2 = parseInt(req.params.m);
-    const sum = num1 + num2;
-    res.json(sum);
-});
-
-app.get('/isprime/:n', (req, res) => {
-    result = ''
-    const num = parseInt(req.params.n);
-    const isPrime = checkPrime(num);
-    if(isPrime) {
-        result = 'Prime';
-    }
-    else{
-        result = 'Not Prime'
-    }
-    res.json(result);
-});
-
-function checkPrime(num) {
-    if (num <= 1) {
-        return false;
-    }
-    if (num <= 3) {
-        return true;
-    }
-    if (num % 2 === 0 || num % 3 === 0) {
-        return false;
-    }
-    for (let i = 5; i * i <= num; i += 6) {
-        if (num % i === 0 || num % (i + 2) === 0) {
-            return false;
-        }
-    }
-    return true;
+app.use(cors()); 
+console.log(process.env.PORT);
+if(!process.env.PORT) {
+  throw new Error("Please Specify PORT Number for the HTTP Server with environment variable PORT.")
 }
+const port = process.env.PORT
+app.get('/', (req, res) => {
+  res.send('Arithmetic service - last updated 3/4/2024');
+}); 
 
-//listening port
+app.get('/calculate/*', (req, res) => {
+  // Extracting expression from URL parameters
+  const expression = decodeURIComponent(req.params[0]);
+
+  // Evaluating the expression
+  let result;
+  try {
+      result
+      = eval
+      (expression);
+      res.json(result);
+  } catch (error) {
+      res.status(400).send('Invalid expression');
+  }
+}); 
+ 
 app.listen(port);
